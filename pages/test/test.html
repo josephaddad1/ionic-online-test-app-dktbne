@@ -4,43 +4,58 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content >
-</ion-content><ion-header>
+<ion-content> </ion-content
+><ion-header>
   <ion-navbar>
     <ion-title>
       Welcome {{user.name}} your Test is ready for {{user.testType}}
       <button ion-button outline item-end icon-start>
-      <ion-icon name="ios-alarm-outline"></ion-icon>
-      {{timer|date:'HH:mm:ss'}}
-    </button>
+        <ion-icon name="ios-alarm-outline"></ion-icon>
+        {{timer|date:'HH:mm:ss'}}
+      </button>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-card>
+    <ion-card-header>
+      Question. {{ques.quesNo}}
+    </ion-card-header>
 
-  <ion-card-header>
-    Question. {{ques.quesNo}}
-  </ion-card-header>
+    <ion-card-content>
+      {{ques.name}}
 
-  <ion-card-content>
-    {{ques.descr}} ? 
-  </ion-card-content>
-</ion-card>
-<ion-list  radio-group [(ngModel)]="ques.answerFilled">
- 
-  <ion-item *ngFor="let option of ques.options">
-    <ion-label>{{option.descr}}</ion-label>
-    <ion-radio item-left (ionSelect)="selectedAnswer(ques.answerFilled);"   [value]="option.seq"></ion-radio>
-  </ion-item>
+      <ion-textarea
+        *ngIf="ques.type==='text'"
+        type="textarea"
+        style="background-color:#f4f4f4"
+        [(ngModel)]="examFormDTO.textarea[ques.id]"
+      ></ion-textarea>
 
-  
-</ion-list>
-<ion-list>
-  </ion-list>
-<button ion-button color="secondary" (click)="previousQuestion()" outline>Previous</button>
-<button ion-button color="secondary" (click)="nextQuestion()" outline>Next</button>
-<button ion-button color="success" (click)="completeTest()" outline>Submit</button>
+      <ion-list
+        *ngIf="ques.type==='radio'"
+        radio-group
+        [(ngModel)]="examFormDTO.radio[ques.id]"
+      >
+        <ion-item *ngFor="let option of ques.answerList">
+          <ion-label>{{option.name}}</ion-label>
+          <ion-radio
+            item-left
+            (ionSelect)="selectedAnswer(ques.answerFilled);"
+            [value]="option.seq"
+          ></ion-radio>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <button ion-button color="secondary" (click)="previousQuestion()" outline>
+    Previous
+  </button>
+  <button ion-button color="secondary" (click)="nextQuestion()" outline>
+    Next
+  </button>
+  <button ion-button color="success" (click)="completeTest()" outline>
+    Submit
+  </button>
 </ion-content>
-
